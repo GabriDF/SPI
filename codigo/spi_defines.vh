@@ -1,5 +1,0 @@
-// SPI MASTER REGISTERS ADDRESS
-`define SPI_CTRL   2'h0
-`define SPI_BUFFER 2'h1
-`define SPI_CONFIG 2'h2
-`define SPI_SSELEC 2'h3
