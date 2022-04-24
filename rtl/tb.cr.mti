@@ -1,0 +1,46 @@
+C:/Users/Usuario/Downloads/rtl/rtl/shiftreg.v {1 {vlog -work work -stats=none C:/Users/Usuario/Downloads/rtl/rtl/shiftreg.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module shiftreg
+
+Top level modules:
+	shiftreg
+
+} {} {}} C:/Users/Usuario/Downloads/rtl/rtl/spi_regs.v {1 {vlog -work work -stats=none C:/Users/Usuario/Downloads/rtl/rtl/spi_regs.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module spi_regs
+
+Top level modules:
+	spi_regs
+
+} {} {}} C:/Users/Usuario/Downloads/rtl/rtl/spi_defines.vh {1 {vlog -work work -stats=none C:/Users/Usuario/Downloads/rtl/rtl/spi_defines.vh
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
+} {} {}} C:/Users/Usuario/Downloads/rtl/rtl/spislave_fm.v {1 {vlog -work work -stats=none C:/Users/Usuario/Downloads/rtl/rtl/spislave_fm.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module spislave_fm
+
+Top level modules:
+	spislave_fm
+
+} {} {}} C:/Users/Usuario/Downloads/rtl/rtl/spi_top.v {1 {vlog -work work -stats=none C:/Users/Usuario/Downloads/rtl/rtl/spi_top.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module spi_top
+
+Top level modules:
+	spi_top
+
+} {} {}} C:/Users/Usuario/Downloads/rtl/rtl/pulse_generator.v {1 {vlog -work work -stats=none C:/Users/Usuario/Downloads/rtl/rtl/pulse_generator.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module pulse_generator
+
+Top level modules:
+	pulse_generator
+
+} {} {}} C:/Users/Usuario/Downloads/rtl/rtl/spi_cu.v {1 {vlog -work work -stats=none C:/Users/Usuario/Downloads/rtl/rtl/spi_cu.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module spi_cu
+
+Top level modules:
+	spi_cu
+
+} {} {}}

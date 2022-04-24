@@ -1,0 +1,145 @@
+vsim -gui work.tb_spi_top
+# vsim -gui work.tb_spi_top 
+# Start time: 23:13:01 on Apr 23,2022
+# Loading work.tb_spi_top
+# Loading work.spi_top
+# Loading work.spi_regs
+# Loading work.spi_cu
+# Loading work.shiftreg
+# Loading work.pulse_generator
+# Loading work.spislave_fm
+run -all
+# [Info-  192.00 ns] Reset
+# [Info-  292.00 ns] Deberiamos tener Enable a 00000001 y tenemos 00000001 
+# [Info-  294.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info-  352.00 ns] Deberiamos tener Slave 00000001 y tenemos 00000000000000000000000011111110 
+# [Info-  354.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info-  372.00 ns] Test Wr/Rd SPI with mode 0, pre 0001
+# [Info-  412.00 ns] 0001
+# [Info-  412.00 ns] El registro que estamos leyendo és 2 y tendria que ser SPI_CONFIG
+# [Info-  412.00 ns] El valor del registro que estamos leyendo és 00000001 y tendria que ser 00000001
+# [Info-  414.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info-  552.00 ns] El valor del registro buffer és 000000bb y tendria que ser 000000bb
+# [Info-  554.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 1592.00 ns] El valor reibido en el registro buffer és 00000055 y tendria que ser 000000aa
+# [Error! 1594.00 ns] The value is 00000055 and should be 000000aa
+# ********** TEST FAILED **********
+# [Info- 1692.00 ns] Test Wr/Rd SPI with mode 1, pre 0001
+# [Info- 1732.00 ns] 0001
+# [Info- 1732.00 ns] El registro que estamos leyendo és 2 y tendria que ser SPI_CONFIG
+# [Info- 1732.00 ns] El valor del registro que estamos leyendo és 00000011 y tendria que ser 00000011
+# [Info- 1734.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 1872.00 ns] El valor del registro buffer és 000000bb y tendria que ser 000000bb
+# [Info- 1874.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 2912.00 ns] El valor reibido en el registro buffer és 0000009c y tendria que ser 00000072
+# [Error! 2914.00 ns] The value is 0000009c and should be 00000072
+# ********** TEST FAILED **********
+# [Info- 3012.00 ns] Test Wr/Rd SPI with mode 2, pre 0001
+# [Info- 3052.00 ns] 0001
+# [Info- 3052.00 ns] El registro que estamos leyendo és 2 y tendria que ser SPI_CONFIG
+# [Info- 3052.00 ns] El valor del registro que estamos leyendo és 00000021 y tendria que ser 00000021
+# [Info- 3054.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 3192.00 ns] El valor del registro buffer és 000000bb y tendria que ser 000000bb
+# [Info- 3194.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 4232.00 ns] El valor reibido en el registro buffer és 00000078 y tendria que ser 000000c3
+# [Error! 4234.00 ns] The value is 00000078 and should be 000000c3
+# ********** TEST FAILED **********
+# [Info- 4332.00 ns] Test Wr/Rd SPI with mode 3, pre 0001
+# [Info- 4372.00 ns] 0001
+# [Info- 4372.00 ns] El registro que estamos leyendo és 2 y tendria que ser SPI_CONFIG
+# [Info- 4372.00 ns] El valor del registro que estamos leyendo és 00000031 y tendria que ser 00000031
+# [Info- 4374.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 4512.00 ns] El valor del registro buffer és 000000bb y tendria que ser 000000bb
+# [Info- 4514.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 5552.00 ns] El valor reibido en el registro buffer és 000000a1 y tendria que ser 0000005d
+# [Error! 5554.00 ns] The value is 000000a1 and should be 0000005d
+# ********** TEST FAILED **********
+# ** Note: $stop    : C:/Users/Usuario/Downloads/rtl/rtl/tb_spi_top.v(214)
+#    Time: 5652 ns  Iteration: 0  Instance: /tb_spi_top
+# Break in Module tb_spi_top at C:/Users/Usuario/Downloads/rtl/rtl/tb_spi_top.v line 214
+add wave -position insertpoint  \
+sim:/tb_spi_top/DUT/fsmSPI/SCK
+add wave -position insertpoint  \
+sim:/tb_spi_top/DUT/fsmSPI/Clk
+add wave -position insertpoint  \
+sim:/tb_spi_top/DUT/fsmSPI/Pulse
+run -all
+# Break key hit
+# Break in Module spi_regs at C:/Users/Usuario/Downloads/rtl/rtl/spi_regs.v line 144
+restart -f
+run
+# GetModuleFileName: No se puede encontrar el m�dulo especificado.
+# 
+# 
+run -all
+# [Info-  192.00 ns] Reset
+# [Info-  292.00 ns] Deberiamos tener Enable a 00000001 y tenemos 00000001 
+# [Info-  294.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info-  352.00 ns] Deberiamos tener Slave 00000001 y tenemos 00000000000000000000000011111110 
+# [Info-  354.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info-  372.00 ns] Test Wr/Rd SPI with mode 0, pre 0001
+# [Info-  412.00 ns] 0001
+# [Info-  412.00 ns] El registro que estamos leyendo és 2 y tendria que ser SPI_CONFIG
+# [Info-  412.00 ns] El valor del registro que estamos leyendo és 00000001 y tendria que ser 00000001
+# [Info-  414.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info-  552.00 ns] El valor del registro buffer és 000000bb y tendria que ser 000000bb
+# [Info-  554.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 1592.00 ns] El valor reibido en el registro buffer és 00000055 y tendria que ser 000000aa
+# [Error! 1594.00 ns] The value is 00000055 and should be 000000aa
+# ********** TEST FAILED **********
+# [Info- 1692.00 ns] Test Wr/Rd SPI with mode 1, pre 0001
+# [Info- 1732.00 ns] 0001
+# [Info- 1732.00 ns] El registro que estamos leyendo és 2 y tendria que ser SPI_CONFIG
+# [Info- 1732.00 ns] El valor del registro que estamos leyendo és 00000011 y tendria que ser 00000011
+# [Info- 1734.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 1872.00 ns] El valor del registro buffer és 000000bb y tendria que ser 000000bb
+# [Info- 1874.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 2912.00 ns] El valor reibido en el registro buffer és 0000009c y tendria que ser 00000072
+# [Error! 2914.00 ns] The value is 0000009c and should be 00000072
+# ********** TEST FAILED **********
+# [Info- 3012.00 ns] Test Wr/Rd SPI with mode 2, pre 0001
+# [Info- 3052.00 ns] 0001
+# [Info- 3052.00 ns] El registro que estamos leyendo és 2 y tendria que ser SPI_CONFIG
+# [Info- 3052.00 ns] El valor del registro que estamos leyendo és 00000021 y tendria que ser 00000021
+# [Info- 3054.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 3192.00 ns] El valor del registro buffer és 000000bb y tendria que ser 000000bb
+# [Info- 3194.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 4232.00 ns] El valor reibido en el registro buffer és 00000078 y tendria que ser 000000c3
+# [Error! 4234.00 ns] The value is 00000078 and should be 000000c3
+# ********** TEST FAILED **********
+# [Info- 4332.00 ns] Test Wr/Rd SPI with mode 3, pre 0001
+# [Info- 4372.00 ns] 0001
+# [Info- 4372.00 ns] El registro que estamos leyendo és 2 y tendria que ser SPI_CONFIG
+# [Info- 4372.00 ns] El valor del registro que estamos leyendo és 00000031 y tendria que ser 00000031
+# [Info- 4374.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 4512.00 ns] El valor del registro buffer és 000000bb y tendria que ser 000000bb
+# [Info- 4514.00 ns] Successful check
+# ********** TEST PASSED **********
+# [Info- 5552.00 ns] El valor reibido en el registro buffer és 000000a1 y tendria que ser 0000005d
+# [Error! 5554.00 ns] The value is 000000a1 and should be 0000005d
+# ********** TEST FAILED **********
+# ** Note: $stop    : C:/Users/Usuario/Downloads/rtl/rtl/tb_spi_top.v(214)
+#    Time: 5652 ns  Iteration: 0  Instance: /tb_spi_top
+# Break in Module tb_spi_top at C:/Users/Usuario/Downloads/rtl/rtl/tb_spi_top.v line 214
+quit -sim
+# End time: 23:17:13 on Apr 23,2022, Elapsed time: 0:04:12
+# Errors: 0, Warnings: 1

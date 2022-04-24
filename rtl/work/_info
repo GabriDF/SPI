@@ -1,0 +1,172 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/intelFPGA/20.1
+vpulse_generator
+!s110 1650748347
+!i10b 1
+!s100 U56SMDLcN8:EdIM8e1DVe0
+Z0 !s11b Dg1SIo80bB@j0V0VzS_@n1
+ILBz;[XaR3V6^>TGe_bUif1
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dC:/Users/Usuario/Downloads/rtl
+w1650742528
+8C:/Users/Usuario/Downloads/rtl/rtl/pulse_generator.v
+FC:/Users/Usuario/Downloads/rtl/rtl/pulse_generator.v
+!i122 177
+L0 18 35
+Z3 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z4 !s108 1650748347.000000
+!s107 C:/Users/Usuario/Downloads/rtl/rtl/pulse_generator.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Usuario/Downloads/rtl/rtl/pulse_generator.v|
+!i113 1
+Z5 o-work work
+Z6 tCvgOpt 0
+vshiftreg
+Z7 !s110 1650748348
+!i10b 1
+!s100 <]YZVY_kXOLXVm]9V:HX<0
+R0
+I84H>fC@WN54H`IiI7I^mH3
+R1
+R2
+w1647780893
+8C:/Users/Usuario/Downloads/rtl/rtl/shiftreg.v
+FC:/Users/Usuario/Downloads/rtl/rtl/shiftreg.v
+!i122 178
+L0 19 37
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/Usuario/Downloads/rtl/rtl/shiftreg.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Usuario/Downloads/rtl/rtl/shiftreg.v|
+!i113 1
+R5
+R6
+vspi_cu
+R7
+!i10b 1
+!s100 mRF1HABXOF_Z40WSeO;:d3
+R0
+I8hZ`N2RZoL2JSz@PB6N`?3
+R1
+R2
+w1650748077
+8C:/Users/Usuario/Downloads/rtl/rtl/spi_cu.v
+FC:/Users/Usuario/Downloads/rtl/rtl/spi_cu.v
+!i122 179
+L0 19 148
+R3
+r1
+!s85 0
+31
+Z8 !s108 1650748348.000000
+!s107 C:/Users/Usuario/Downloads/rtl/rtl/spi_cu.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Usuario/Downloads/rtl/rtl/spi_cu.v|
+!i113 1
+R5
+R6
+vspi_regs
+R7
+!i10b 1
+!s100 ?]f=CoBcllhIFc47`CB380
+R0
+IWiWR3_QD4<KEm[X9DdlSW3
+R1
+R2
+w1650742412
+8C:/Users/Usuario/Downloads/rtl/rtl/spi_regs.v
+FC:/Users/Usuario/Downloads/rtl/rtl/spi_regs.v
+!i122 180
+L0 69 143
+R3
+r1
+!s85 0
+31
+R8
+!s107 C:\Users\Usuario\Downloads\rtl\rtl\spi_defines.vh|C:/Users/Usuario/Downloads/rtl/rtl/spi_regs.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Usuario/Downloads/rtl/rtl/spi_regs.v|
+!i113 1
+R5
+R6
+vspi_top
+!s110 1650748349
+!i10b 1
+!s100 o_f5TB4MzKoS92N>;o>=N2
+R0
+IO7CMHN0bR=0F2:CAen9J50
+R1
+R2
+w1650747520
+8C:/Users/Usuario/Downloads/rtl/rtl/spi_top.v
+FC:/Users/Usuario/Downloads/rtl/rtl/spi_top.v
+!i122 181
+L0 20 101
+R3
+r1
+!s85 0
+31
+!s108 1650748349.000000
+!s107 C:/Users/Usuario/Downloads/rtl/rtl/spi_top.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Usuario/Downloads/rtl/rtl/spi_top.v|
+!i113 1
+R5
+R6
+vspislave_fm
+!s110 1650748352
+!i10b 1
+!s100 coblheaVPXWFFM6h6MbiE2
+R0
+I0haNQN>L:5eTdC>34T@]J3
+R1
+R2
+w1650652965
+8C:/Users/Usuario/Downloads/rtl/rtl/spislave_fm.v
+FC:/Users/Usuario/Downloads/rtl/rtl/spislave_fm.v
+!i122 182
+L0 33 88
+R3
+r1
+!s85 0
+31
+!s108 1650748352.000000
+!s107 C:/Users/Usuario/Downloads/rtl/rtl/spislave_fm.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Usuario/Downloads/rtl/rtl/spislave_fm.v|
+!i113 1
+R5
+R6
+vtb_spi_top
+!s110 1650748361
+!i10b 1
+!s100 elMOfTPbGlm?RL2ofP`[91
+R0
+I9^Ag1HzJV_Xzk]T]XT^PR3
+R1
+R2
+w1650748337
+8C:/Users/Usuario/Downloads/rtl/rtl/tb_spi_top.v
+FC:/Users/Usuario/Downloads/rtl/rtl/tb_spi_top.v
+!i122 183
+L0 27 322
+R3
+r1
+!s85 0
+31
+!s108 1650748361.000000
+!s107 C:\Users\Usuario\Downloads\rtl\rtl\..\rtl\spi_defines.vh|C:/Users/Usuario/Downloads/rtl/rtl/tb_spi_top.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Usuario/Downloads/rtl/rtl/tb_spi_top.v|
+!i113 1
+R5
+R6
