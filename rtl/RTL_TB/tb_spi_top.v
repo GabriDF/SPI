@@ -142,12 +142,13 @@ module tb_spi_top();
         repeat(4) begin
             $display("[Info- %t] Test Wr/Rd SPI with mode %d, pre 0001", $time, mode);
             //Elegimos el modo a usar y el prescalado, empezamos con modo 00,01,10,11, pre escalado 0001 y 0010
-            modo_data(mode, 4'b0010);
+            //modo_data(mode, 4'd2);
             //waitCycles(1);
             //Leemos el registro que acabamos de escribir
-            data2write = {mode, 4'b0010};     
+            data2write = 8'b00000010;
+            //data2write = {mode, 4'b0010};     
             writeReg(data2write,`SPI_CONFIG);
-            vExpected = {2'b00, mode, 4'b0001};
+            vExpected = {2'b00, mode, 4'b0010};
             readReg(`SPI_CONFIG, vObtained);  
 
             $display("[Info- %t] %b", $time, DUT.pulseSPI.CPre);
