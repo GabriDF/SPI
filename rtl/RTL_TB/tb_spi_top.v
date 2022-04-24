@@ -55,9 +55,11 @@ module tb_spi_top();
         integer         errors;    // Accumulated errors during the simulation
         integer         vExpected;  // expected value
         integer         vObtained; // obtained value
-        reg  [7:0] data2write; // data to load in the shift register
-        reg  [1:0] addr2write; // data to load in the shift register
+        reg     [7:0]   data2write; // data to load in the shift register
+        reg     [1:0]   addr2write; // data to load in the shift register
         //reg [1:0] modoc; //Modo de control
+        reg     [3:0]   pre_c;
+        reg             ejem;
 
     //___________________________________________________________________________
     // Instantiation of the module to be verified
@@ -95,122 +97,116 @@ module tb_spi_top();
             wr <= 1'b0;
             addr <= 1'b0;
             dataWr <= 8'b0;
-            errors = 0;                    // initialize the errors counter
+            mode <= 2'b0;
+            errors = 0;                                 // initialize the errors counter
             waitCycles(1);
         end
         
     //___________________________________________________________________________
     // Test Vectors
     initial begin
-      $timeformat(-9, 2, " ns", 10); // format for the time print
-      waitCycles(10);
-      resetDUT();
-      mode = 2'b00;
+      $timeformat(-9, 2, " ns", 10);                    // format for the time print
+      waitCycles(10);                                   
+      resetDUT();                                       //hacemos un reset para tener valores conocidos
+      mode = 2'b00;                                     //estado inicial de comunicacion con el slave
+      pre_c = 4'b0000;                                  //estado inicial del cPre
 
-      //Habilitamos el anable del SPI MASTER
-      addr2write = `SPI_CTRL;  //registro de control  
-      data2write = 8'b1;  
-      writeReg(data2write, addr2write);
+      //Habilitamos el enable del SPI MASTER
+      addr2write = `SPI_CTRL;                           //registro de control  
+      data2write = 8'b1;                                //ponemos en 1 el bit de enable
+      writeReg(data2write, addr2write);                 //Escribimos los datos en el registro de control
       waitCycles(1);
-      
-      //Leemos el registro que acabamos de escribir
+    
+      //Leemos el registro que acabamos de escribir para comprobar que esta todo ok
       vExpected = data2write;
-      readReg(addr2write, vObtained);
-      $display("[Info- %t] Deberiamos tener Enable a 00000001 y tenemos %h ", $time, vObtained);
+      readReg(addr2write, vObtained);                   //comprobamos que esta habilitado el SPI MASTER
+      $display("[Info- %t] Deberiamos tener Enable a 00000001 y tenemos %b ", $time, vObtained);
+      //Checks de los errores y displays
       asyncCheck;
       checkErrors;
-      errors = 0;                    // initialize the errors counter
+      errors = 0;                    
       waitCycles(1);
 
       //Seleccionamos el Slave numero 1, escribimos en el registro de sslect  
-      addr2write = `SPI_SSELEC;  //registro del SlaveSeelector    
-      data2write = 8'b11111110;  //indimos que nos conectaremos con el primer slave
-      //data2write = !data2write;
-      writeReg(data2write, addr2write);
+      addr2write = `SPI_SSELEC;                         //registro del SlaveSeelector    
+      data2write = 8'b11111110;                         //Indicamos que nos conectaremos con el primer slave
+      writeReg(data2write, addr2write);                 
       waitCycles(1);
 
-      //Leemos el registro que acabamos de escribir
+      //Leemos el registro que acabamos de escribir para comprobar que esta ok
       vExpected = data2write;
-      readReg(addr2write, vObtained);
+      readReg(addr2write, vObtained);                   //comprobamos que 
       $display("[Info- %t] Deberiamos tener Slave 00000001 y tenemos %b ", $time, vObtained);
+      //Checks de los errores y displays
       asyncCheck;
       checkErrors;
-      errors = 0;                    // initialize the errors counter
+      errors = 0;                                    // initialize the errors counter
       waitCycles(1);
-
-      //modoc = 2'b0;
+      
         repeat(4) begin
-            $display("[Info- %t] Test Wr/Rd SPI with mode %d, pre 0001", $time, mode);
-            //Elegimos el modo a usar y el prescalado, empezamos con modo 00,01,10,11, pre escalado 0001 y 0010
-            //modo_data(mode, 4'd2);
-            //waitCycles(1);
+            $display("[Info- %t] Test SPI with mode %b, pre = %b", $time, mode, pre_c);
+            //Elegimos el modo a usar y el prescalado, empezamos con modo 0000 y luego 0001,0010,0011
+            modo_data(mode, pre_c);
+            waitCycles(1);
             //Leemos el registro que acabamos de escribir
-            data2write = 8'b00000010;
-            //data2write = {mode, 4'b0010};     
-            writeReg(data2write,`SPI_CONFIG);
-            vExpected = {2'b00, mode, 4'b0010};
-            readReg(`SPI_CONFIG, vObtained);  
-
-            $display("[Info- %t] %b", $time, DUT.pulseSPI.CPre);
-
-            $display("[Info- %t] El registro que estamos leyendo és %h y tendria que ser SPI_CONFIG", $time, `SPI_CONFIG);
-            $display("[Info- %t] El valor del registro que estamos leyendo és %h y tendria que ser %h", $time, vObtained, vExpected);
-            asyncCheck;
+            vExpected = {2'b00, mode, pre_c};
+            addr2write = `SPI_CONFIG;
+            readReg(addr2write, vObtained);     
+            asyncCheck;                                 //comprobamos que esta correcto la escritura de la config del SCK
             checkErrors;
-            errors = 0;                    // initialize the errors counter
+            errors = 0;                                 // initialize the errors counter
             waitCycles(1);
-
-            addr2write = `SPI_SSELEC;  //registro del SlaveSeelector    
-            data2write = 8'b11111111;  //indimos que nos conectaremos con el primer slave
             
-            //data2write = !data2write;
-            writeReg(data2write, addr2write);
+            addr2write = `SPI_BUFFER;                   //registro del buffer    
+            data2write = 8'hBB;  
+            writeReg(data2write, addr2write);           //enviamos un dato al slave
             waitCycles(1);
-            data2write = 8'b11111110;  //indimos que nos conectaremos con el primer slave
-            writeReg(!data2write, addr2write);
-            waitCycles(1);
- 
-
-            addr2write = `SPI_BUFFER;  //registro del buffer    
-            data2write = 8'hBB;  //indimos que nos conectaremos con el primer slave
-            writeReg(data2write, addr2write);
-            waitCycles(1);
-            readReg(`SPI_BUFFER, vObtained);
+            readReg(addr2write, vObtained);            //comprobamos que el dato a enviar es el deseado
             vExpected = data2write;
-            $display("[Info- %t] El valor del registro buffer és %h y tendria que ser %h", $time, vObtained, vExpected);
             asyncCheck;
             checkErrors;
             errors = 0;                    // initialize the errors counter
-            
-            waitCycles(50);
-            //WaitEnd;
 
-            case (mode)
+            WaitEnd;                                //espera hasta un flag de EndTx para saber que ha recibido el dat del SLAVE    
+            //waitCycles(200);              //se utiliza para poder separacion entre cada test
+                                
+            case (mode)                     //en funcion del mode del SCK recibiremos un dato despislave_fm
                 2'b00 : vExpected = 8'hAA;
                 2'b01 : vExpected = 8'h72; 
                 2'b10 : vExpected = 8'hC3; 
                 2'b11 : vExpected = 8'h5D; 
-                default :  vExpected = 8'h00; 
+                default :  vExpected = 8'h00;       //ponemos un default para indicar que el mode no esta bien indicado en el salve
             endcase 
-            waitCycles(1);
-            readReg(`SPI_BUFFER, vObtained);
-            waitCycles(1);
-            $display("[Info- %t] El valor reibido en el registro buffer és %h y tendria que ser %h", $time, vObtained, vExpected);
-            asyncCheck;
+
+            wr = 1'b0;
+            addr = 2'b01;                   //registro del buffer 
+            waitClk;
+            
+            readReg(addr2write, vObtained);        //miramos si el valor recibido del slave
+            waitClk;
+            $display("%h y %b o %h y %b", dataRd, dataRd, vExpected, vExpected);
+            waitCycles(3);
+            
+            syncCheck;
             checkErrors;
             errors = 0;                    // initialize the errors counter 
+            
+
+            //para cambiar el valor de transmision del slave tenemos que cambiar el valor de CS
+            //para eso ponemos primero a 1 y luego a 0
+            addr2write = `SPI_SSELEC;  //registro del SlaveSeelector    
+            data2write = 8'b11111111;  //apagamos el SlaveSlector
 
             mode = mode + 1'b1;       //indicamos al slave como vamos a escribir
-
-            addr2write = `SPI_SSELEC;  //registro del SlaveSeelector    
-            data2write = 8'b00000001;  //indimos que nos conectaremos con el primer slave
-            
+            pre_c = pre_c + 1'b1;
+                
             //data2write = !data2write;
             writeReg(data2write, addr2write);
             waitCycles(1);
-
+            data2write = 8'b11111110;  //indimos que nos conectaremos con el primer slave
+            writeReg(data2write, addr2write);
             waitCycles(3);
- 
+    
         end
         $stop;
     end
@@ -224,8 +220,6 @@ module tb_spi_top();
             //SI CPRE = 1 y CPHA = 0 MODO 2
             //SI CPRE = 1 y CPHA = 1 MODO 3
             begin
-            // input [1:0]     modo;
-            // input [3:0]     prescale;
             data2write = {2'b00, modo, prescale};     
             writeReg(data2write,`SPI_CONFIG);
             end
@@ -235,8 +229,9 @@ module tb_spi_top();
         task WaitEnd; begin
             addr2write = `SPI_CTRL;  //registro de control  
             readReg(addr2write, vObtained);
-            @(negedge dataRd[7])//mientras nuestro SPI este con busy a 1 no deja continuar 
-            #`DELAY;
+            ejem= 1'b1;
+            while (dataRd[7] == 1'b1)   waitClk;
+            ejem= 1'b0;
         end
         endtask
 

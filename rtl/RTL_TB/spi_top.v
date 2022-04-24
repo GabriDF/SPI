@@ -46,75 +46,76 @@ wire        load;
 wire        pulseEnable;
 wire        shiftRx;
 wire        shiftTx;
-
+//el rst del generador de pulsos vendra en funcion del rst general y el enable del pulse
 assign rst_pulse = Rst_n & pulseEnable;
 
 //__________________________________________________________
 //modulos del SPI MASTER
-spi_regs regSPI                     
-(
-    .Clk              (Clk),
-    .Rst_n            (Rst_n),
-    .Addr             (Addr),
-    .Wr               (Wr),
-    .DataWr           (DataWr),
-    .DataRd           (DataRd),
-    .CPol             (cPol),
-    .CPha             (cPha),
-    .CPre             (cPre),
-    .StartTx          (startTx),
-    .EndTx            (endTx),
-    .TxData           (txData),
-    .RxData           (rxData),
-    .SlaveSelectors   (SlaveSelectors)
+
+spi_regs #(.DATA_WIDTH(8), .ADDR_WIDTH(2)) regSPI                     
+(//registros del SPI MASTER
+    .Clk              (Clk),        //clk del sistema
+    .Rst_n            (Rst_n),      //reset del sistema
+    .Addr             (Addr),       //direccion del registro a w/r
+    .Wr               (Wr),         //habilita la escritura
+    .DataWr           (DataWr),     //señal de escritura
+    .DataRd           (DataRd),     //señal de lectura
+    .CPol             (cPol),       //Polaridad del SCK
+    .CPha             (cPha),       //Fase del SCK
+    .CPre             (cPre),       //Prescalado de la señal de sincronismo
+    .StartTx          (startTx),    //señal de inicio de una operacion
+    .EndTx            (endTx),      //indica que el valor en serie esta cargado
+    .TxData           (txData),     //dato a transmitir
+    .RxData           (rxData),     //dato a recibir
+    .SlaveSelectors   (SlaveSelectors)//registro del Slave selector
 );
 
 spi_cu fsmSPI                       
-(	
-    .Clk              (Clk),
-    .Rst_n            (Rst_n),
-    .CPol             (cPol),
-    .CPha             (cPha),
-    .StartTx          (startTx),
-    .EndTx            (endTx),
-	.Pulse			  (pulse),
-	.SCK			  (SCK),
-	.Load			  (load),
-	.PulseEnable	  (pulseEnable),
-	.ShiftRx		  (shiftRx),
-	.ShiftTx		  (shiftTx)
+(	//maquina de estados
+    .Clk              (Clk),        //clk del sistema
+    .Rst_n            (Rst_n),      //reset del sistema
+    .CPol             (cPol),       //Polaridad del SCK
+    .CPha             (cPha),       //Fase del SCK
+    .StartTx          (startTx),    //señal de inicio de envio del dato
+    .EndTx            (endTx),      //indica que el valor en serie esta cargado
+	.Pulse			  (pulse),      //timer del SCK
+	.SCK			  (SCK),        //señal de sincronismo
+	.Load			  (load),       //carga del dato en paralelo al shift register
+	.PulseEnable	  (pulseEnable),//enciende el generador de pulsos
+	.ShiftRx		  (shiftRx),    //shiftea un valor por MISO
+	.ShiftTx		  (shiftTx)     //shiftea un valor por MOSI
 );
 
-shiftreg shifMOSI 
+shiftreg #(.SIZE(8)) shifMOSI 
 (
-    .Clk           (Clk),
-    .Rst_n         (Rst_n),
-    .En            (shiftTx),
-    .Load          (load),
-    .DataIn        (txData),
-    .DataOut       (),    //no la utilizamos
-    .SerIn         (),       //no la utilizamos
-    .SerOut        (MOSI)
+    .Clk           (Clk),           //clk del sistema
+    .Rst_n         (Rst_n),         //reset del sistema
+    .En            (shiftTx),       //shiftea un valor por MOSI
+    .Load          (load),          //carga del dato en paralelo al shift register
+    .DataIn        (txData),        //dato a transmitir
+    .DataOut       (),              //no la utilizamos
+    .SerIn         (),              //no la utilizamos
+    .SerOut        (MOSI)           //salida en serie del MOSI
 );
 
-shiftreg shiftMISO 
+shiftreg #(.SIZE(8)) shiftMISO 
 (
-    .Clk           (Clk),
-    .Rst_n         (Rst_n),
-    .En            (shiftRx),
-    .Load          (),        //no la utiliamos
-    .DataIn        (),      //no la utilizamos
-    .DataOut       (rxData),
-    .SerIn         (MISO),
-    .SerOut        ()
+    .Clk           (Clk),           //clk del sistema
+    .Rst_n         (Rst_n),         //reset del sistema
+    .En            (shiftRx),       //shiftea un valor por MISO
+    .Load          (),              //no la utiliamos
+    .DataIn        (),              //no la utilizamos
+    .DataOut       (rxData),        //valor en paralelo recibido por MISO
+    .SerIn         (MISO),          //entrada del master del dato de los slaves
+    .SerOut        ()               //no la utiliamos
 );
 
 pulse_generator #(.SIZE(4)) pulseSPI
 (
-    .Clk           (Clk),
-    .Rst_n         (rst_pulse),
-    .CPre          (cPre),
-    .Pulse         (pulse)
+    .Clk           (Clk),           //clk del sistema
+    .Rst_n         (rst_pulse),     //enciende el generador de pulsos
+    .CPre          (cPre),          //Prescalado de la señal de sincronismo
+    .Pulse         (pulse)          //timer del SCK
 );
 
 endmodule

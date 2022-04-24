@@ -69,7 +69,7 @@ always @(posedge Clk or negedge Rst_n) begin //contador de nuestra maquina de es
 		contador <= 5'b0;
 	end
 	else if (Pulse) begin
-		if (contador >= 16) begin
+		if (contador > 16) begin
 			contador = 0;
 		end
 		else begin
@@ -80,19 +80,18 @@ end
 
 //caculo de siguiente estado
 always @(state or StartTx or Pulse or contador) begin
-	next_state = 5'b0;    //estado default 
 	case (state)
-		IDLE 		: 	if (StartTx)			next_state = state_load;	//salimos del estado inicial
-						else 					next_state = IDLE;			//mantenemos el estado
-		state_load 	:	if (Pulse)				next_state = state_tx;		//estado cargar el dato a enviar
-						else 					next_state = state_load;	//mantenemos el estado
-		state_tx 	:	if (Pulse)				next_state = state_rx;		//estado de envio de datos
-						else 					next_state = state_tx;		//mantenemos el estado
-		state_rx 	:	if (contador==16) 		next_state = state_EndTx;//hemos terminado de leer y recivir datos
-						else if (Pulse)   		next_state = state_tx; 		//estado de lectura de datos
-						else 					next_state = state_rx;		//mantenemos el estado
-		state_EndTx : 							next_state = IDLE;			//acabamos y volvemos al estado inical
-		default		:							next_state = IDLE;
+		IDLE 		: 	if (StartTx)						next_state = state_load;	//salimos del estado inicial
+						else 								next_state = IDLE;			//mantenemos el estado
+		state_load 	:	if (Pulse)							next_state = state_tx;		//estado cargar el dato a enviar
+						else 								next_state = state_load;	//mantenemos el estado
+		state_tx 	:	if (Pulse)							next_state = state_rx;		//estado de envio de datos
+						else 								next_state = state_tx;		//mantenemos el estado
+		state_rx 	:	if ((contador==16) && (Pulse)) 		next_state = state_EndTx;//hemos terminado de leer y recivir datos
+						else if (Pulse)   					next_state = state_tx; 		//estado de lectura de datos
+						else 								next_state = state_rx;		//mantenemos el estado
+		state_EndTx : 										next_state = IDLE;			//acabamos y volvemos al estado inical
+		default		:										next_state = IDLE;
 	endcase 
 end
 
@@ -124,40 +123,53 @@ always @(posedge Clk or negedge Rst_n) begin
 								ShiftRx_reg <= 1'b0;
 								ShiftTx_reg <= 1'b0;
 								Load_reg <= 1'b1;			//cargamos nuestro dato a enviar
-								sck_reg <= CPol;
+								if (Pulse && !CPha) begin
+									sck_reg <= CPol;
+								end
+								else if (Pulse)	sck_reg <= ~sck_reg;
+								else sck_reg <= CPol;
+								
 								end
 
 			state_tx 		:	begin
 								EndTx_reg <= 1'b0;
 								PulseEnable_reg <= 1'b1;	//activamos el generador de pulsos
-								ShiftRx_reg <= 1'b0;
-								ShiftTx_reg <= 1'b1; 		//enviamos un bit de información
-								Load_reg <= 1'b0;
-								if ((contador == 5'b1 && CPha == 1'b0) || (CPha == 1'b1 && contador ==5'b10000)) begin
-									sck_reg <= CPol;
-								end
-								else begin
+								if (Pulse) 	begin
+									ShiftRx_reg <= 1'b1;
 									sck_reg <= ~sck_reg;
 								end
+								else begin
+									ShiftRx_reg <= 1'b0;
+									sck_reg <= sck_reg;
+								end								
+								ShiftTx_reg <= 1'b0;
+								Load_reg <= 1'b0;										
 								end
+								
 
 			state_rx 		:	begin
 								EndTx_reg <= 1'b0;
 								PulseEnable_reg <= 1'b1;	//activamos el generador de pulsos
-								ShiftRx_reg <= 1'b1;
-								ShiftTx_reg <= 1'b0;
+								ShiftRx_reg <= 1'b0;								
 								Load_reg <= 1'b0;
-								//sck_reg <= CPol;
-								sck_reg <= ~sck_reg;
+								if (Pulse) begin
+									if ((CPha == 1'b1) && (contador > 5'b10000)) 	sck_reg <= CPol;
+									else											sck_reg <= ~sck_reg;
+									if (contador < 5'b10000)						ShiftTx_reg <= 1'b1;
+									else 											ShiftTx_reg <= 1'b0;
 								end
+								else sck_reg <= sck_reg;
+								end
+								
 
 			state_EndTx 	:	begin
 								PulseEnable_reg <= 1'b0;
 								ShiftRx_reg <= 1'b0;
 								ShiftTx_reg <= 1'b0;
 								Load_reg <= 1'b0;
-								sck_reg <= ~sck_reg;
+								sck_reg <= CPol;
 								EndTx_reg <= 1'b1;
+								contador <=0;
 								end
 		endcase
 	end
